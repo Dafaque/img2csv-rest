@@ -1,0 +1,81 @@
+openapi: 3.1.0
+info: 
+  title: img2csv REST
+  description: HTTP microservice to convert graphical tables into csv data using https://github.com/xavctn/img2table
+  version: 1.0.1
+paths:
+  /extract/pdf:
+    post:
+      operationId: extract_pdf
+      parameters:
+        - in: query
+          name: page
+          required: false
+          description: page number to extract. ignore to parse whole file
+          schema:
+            type: int
+        - in: query
+          name: lang
+          required: false
+          description: document language
+          schema:
+            type: string
+            default: rus
+        - in: query
+          name: min_confidence
+          required: false
+          description: minimum confidence level from OCR in order to process text, from 0 (worst) to 99 (best)
+          schema: 
+            type: int
+            default: 90
+            min: 0
+            max: 99
+        - in: query
+          name: implicit_rows
+          required: false
+          description: indicating if implicit rows are splitted
+          schema: 
+            type: string
+            default: false
+        - in: query
+          name: borderless_tables
+          required: false
+          description: indicating if borderless tables should be detected
+          schema: 
+            type: boolean
+            default: false
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                file:
+                  type: string
+                  format: binary
+      responses:
+        200:
+          description: Table has been found and extracxted
+          content:
+            text/csv:
+              schema:
+                description: double newline separated tables
+                type: string
+                format: binary
+        204:
+          description: Table was not found
+        400:
+          description: bad arguments
+          content:
+            text/plain:
+              schema:
+                description: error details
+                type: string
+        500:
+          description: Something went wrong
+          content:
+            text/plain:
+              schema:
+                description: error details
+                type: string
+ 

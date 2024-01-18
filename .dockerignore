@@ -1,0 +1,5 @@
+.venv
+Dockerfile
+Makefile
+openapi.yml
+test.pdf
