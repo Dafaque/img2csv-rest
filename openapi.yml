@@ -1,7 +1,7 @@
-openapi: 3.1.0
+openapi: 3.0.3
 info: 
   title: img2csv REST
-  description: HTTP microservice to convert graphical tables into csv data using https://github.com/xavctn/img2table
+  description:  Convert graphical tables into csv data using https://github.com/xavctn/img2table via HTTP 
   version: 1.0.1
 paths:
   /extract/pdf:
@@ -13,29 +13,28 @@ paths:
           required: false
           description: page number to extract. ignore to parse whole file
           schema:
-            type: int
+            type: integer
         - in: query
           name: lang
           required: false
           description: document language
           schema:
             type: string
-            default: rus
         - in: query
           name: min_confidence
           required: false
           description: minimum confidence level from OCR in order to process text, from 0 (worst) to 99 (best)
           schema: 
-            type: int
+            type: integer
             default: 90
-            min: 0
-            max: 99
+            minimum: 0
+            maximum: 99
         - in: query
           name: implicit_rows
           required: false
           description: indicating if implicit rows are splitted
           schema: 
-            type: string
+            type: boolean
             default: false
         - in: query
           name: borderless_tables
